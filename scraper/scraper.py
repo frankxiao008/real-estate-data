@@ -11,8 +11,13 @@ import asyncio
 async def get_dynamic_soup(url: str) -> BeautifulSoup:
     async with async_playwright() as p: # Use async_playwright
         browser = await p.chromium.launch() # Use await for asynchronous operations
-        context = await browser.new_context()
-        page = await browser.new_page() # Use await for asynchronous operations
+        # context = await browser.new_context()
+        # context = await p.chromium.launch_persistent_context(
+        context = await browser.new_context(
+            # user_data_dir='.',  # Temporary directory for the context
+            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        )
+        page = await context.new_page() # Use await for asynchronous operations
         try:
           await page.goto(url, timeout=60000) # Use await for asynchronous operations
           soup = BeautifulSoup(await page.content(), "html.parser") # Use await for asynchronous operations
