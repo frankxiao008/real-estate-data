@@ -11,15 +11,28 @@ import asyncio
 async def get_dynamic_soup(url: str) -> BeautifulSoup:
     async with async_playwright() as p: # Use async_playwright
         browser = await p.chromium.launch() # Use await for asynchronous operations
+        context = await browser.new_context()
         page = await browser.new_page() # Use await for asynchronous operations
-        await page.goto(url) # Use await for asynchronous operations
-        soup = BeautifulSoup(await page.content(), "html.parser") # Use await for asynchronous operations
-        await browser.close() # Use await for asynchronous operations
+        try:
+          await page.goto(url, timeout=60000) # Use await for asynchronous operations
+          soup = BeautifulSoup(await page.content(), "html.parser") # Use await for asynchronous operations
+        except Exception as e:
+            print(f"Error while fetching the page: {e}")
+            return None  # Return None or handle the error as needed
+        finally:
+            await context.close()  # Ensure context is closed
+            await browser.close()   # Ensure browser is closed
         return soup
 
 async def main():
 
     soup =await get_dynamic_soup("https://www.rentfaster.ca/ab/calgary/rentals/")
+    
+    # Check if soup is None
+    if soup is None:
+        print("Failed to retrieve soup. Exiting.")
+        return  # Exit the function early if there's no valid soup
+    
     listing_count_element = soup.find("h3", class_="title is-size-6 mt-1").find("span", class_="dnt ng-binding")
 
     number =  int(listing_count_element.text.strip("()"))
