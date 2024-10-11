@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd 
+#import pandas as pd 
 import os
 from playwright.async_api import async_playwright
 import csv
