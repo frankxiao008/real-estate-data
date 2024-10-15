@@ -110,7 +110,7 @@ async def scrape_rental_stats(url: str) -> pd.DataFrame:
         # Add ListingsNum column if it doesn't exist
         if 'ListingsNum' not in df.columns:
             df['ListingsNum'] = 0  # Initialize with 0
-
+        print(df)
         return df
 
 
