@@ -20,7 +20,7 @@ async def get_dynamic_soup(url: str) -> BeautifulSoup:
         page = await context.new_page() # Use await for asynchronous operations
         page.on("pageerror", lambda error: print(f"Page error: {error}"))
         try:
-          await page.goto(url, timeout=120000) # Use await for asynchronous operations
+          await page.goto(url, timeout=240000) # Use await for asynchronous operations
           soup = BeautifulSoup(await page.content(), "html.parser") # Use await for asynchronous operations
           print(soup)
         except Exception as e:
