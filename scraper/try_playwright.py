@@ -137,14 +137,22 @@ async def main():
 
 
     current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    current_dir = os.path.dirname(__file__)  # Gets the directory of the current script
+    sibling_dir = os.path.join(current_dir, '..', 'data')  
+    csv_file_path = os.path.join(sibling_dir, current_datetime + '_rental_stats.csv')
+    print("save file to " + csv_file_path)
     # You can save the DataFrame to a CSV file if needed:
-    rental_stats_df.to_csv('data/'+ current_datetime + '_rental_stats.csv', index=False)
+    rental_stats_df.to_csv(csv_file_path, index=False)
 
 def test():
     rental_stats_df = pd.read_csv('data/2024-10-10 225527rental_stats.csv')   
     # Get a list of all column names
     cols = rental_stats_df.columns.tolist()
-
+    # Define the current directory and the sibling directory
+    current_dir = os.path.dirname(__file__)  # Gets the directory of the current script
+    sibling_dir = os.path.join(current_dir, '..', 'data')  
+    print(sibling_dir)
+    csv_file_path = os.path.join(sibling_dir, 'test.csv')
     # Move 'Datetime' to the beginning of the list
     cols.insert(0, cols.pop(cols.index('Datetime'))) 
 
@@ -152,8 +160,9 @@ def test():
     rental_stats_df = rental_stats_df.reindex(columns=cols)    
     rental_stats_df = rental_stats_df.drop('Link', axis=1)
     print(rental_stats_df)
+    rental_stats_df.to_csv(csv_file_path, index=False)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    #asyncio.run(main())
     # asyncio.run(run())
-
+    test()
