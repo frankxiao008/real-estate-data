@@ -163,6 +163,5 @@ def test():
     rental_stats_df.to_csv(csv_file_path, index=False)
 
 if __name__ == '__main__':
-    #asyncio.run(main())
-    # asyncio.run(run())
-    test()
+    asyncio.run(main())
+ 
