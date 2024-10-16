@@ -15,10 +15,10 @@ async def run(url: str):
 
         print("Start")
         # Enable console logging
-        page.on("console", lambda msg: print(f"Page log: {msg.text}"))
+        # page.on("console", lambda msg: print(f"Page log: {msg.text}"))
 
         # Log responses
-        page.on("response", lambda response: print(f"Response: {response.url} - Status: {response.status}"))
+        # page.on("response", lambda response: print(f"Response: {response.url} - Status: {response.status}"))
 
         # Set request interception to block images and stylesheets, allow scripts
 
@@ -32,9 +32,9 @@ async def run(url: str):
 
         # Get the text content of the element
         title_element = await page.query_selector('h3.title.is-size-6.mt-1')
-        print(title_element)
+        # print(title_element)
         title = await title_element.inner_text() if title_element else 'No title found'
-        print(f"Title: {title}")
+        # print(f"Title: {title}")
 
         # Extract data for listings
         listings = await page.eval_on_selector_all('h3.title.is-size-6.mt-1', '''
@@ -159,7 +159,7 @@ def test():
     # Reindex the DataFrame with the new column order
     rental_stats_df = rental_stats_df.reindex(columns=cols)    
     rental_stats_df = rental_stats_df.drop('Link', axis=1)
-    print(rental_stats_df)
+    
     rental_stats_df.to_csv(csv_file_path, index=False)
 
 if __name__ == '__main__':
